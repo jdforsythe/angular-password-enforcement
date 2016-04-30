@@ -28,8 +28,8 @@ angular.module('myApp', ['angular-password-enforcement'])
 .config(function(validPasswordConfigProvider) {
   validPasswordConfigProvider.setConfig({
     minLength: 7,
-    maxLength: 15,
-    pattern: /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[`~!@#\$%\^&\*\(\)\-_=\+\[\]\{\}\\\|;:'",<.>\/\?]).{7,15})/;
+    maxLength: 30,
+    pattern: /^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).{7,30})$/;
   });
 });
 ```
@@ -38,7 +38,7 @@ It is recommended to also set a constant for the explanation of your password ru
 password fields:
 
 ```js
-.constant('PASSWORD_RULES', '7-100 characters. At least 1 uppercase, 1 lowercase, 1 number, and 1 symbol. Symbols include: `~!@#$%^&*()-_=+[]{}\\|;:\'",.<>/?');
+.constant('PASSWORD_RULES', '7-30 characters. At least 1 uppercase, 1 lowercase, 1 number, and 1 symbol. Symbols include: `~!@#$%^&*()-_=+[]{}\\|;:\'",.<>/?');
 
 
 app.controller('MyController', function(PASSWORD_RULES) {

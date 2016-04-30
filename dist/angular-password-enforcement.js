@@ -1,8 +1,8 @@
 (function() {
   function ValidPasswordConfig() {
     this.minLength = 7;
-    this.maxLength = 15;
-    this.pattern = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[`~!@#\$%\^&\*\(\)\-_=\+\[\]\{\}\\\|;:'",<.>\/\?]).{7,15})/;
+    this.maxLength = 30;
+    this.pattern = /^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).{7,30})$/;
 
     this.$get = function() {
       var config = {
@@ -32,8 +32,8 @@
   }
 
   function ValidPassword(validPasswordConfig) {
-    var minLength = validPasswordConfig.getMinLength()+'',
-        maxLength = validPasswordConfig.getMaxLength()+'',
+    var minLength = validPasswordConfig.getMinLength(),
+        maxLength = validPasswordConfig.getMaxLength(),
         pattern = validPasswordConfig.getPattern();
 
     return {
