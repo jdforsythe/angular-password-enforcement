@@ -1,34 +1,34 @@
-describe('directive', function() {
+describe('angular-password-enforcement', function() {
 
   beforeEach(module('angular-password-enforcement'));
 
-  describe('config test', function() {
+  describe('configuration', function() {
     it('should configure properly', function() {
       module(function(validPasswordConfigProvider) {
         validPasswordConfigProvider.setConfig({
-          minLength: 5,
+          minLength: 6,
           maxLength: 10,
-          pattern: /^[a-zA-Z]\w{4,9}$/
+          pattern: /^[a-zA-Z]\w{5,9}$/
         });
       });
       inject(function(validPasswordConfig) {
-        expect(validPasswordConfig.getMinLength()).toEqual(5);
+        expect(validPasswordConfig.getMinLength()).toEqual(6);
         expect(validPasswordConfig.getMaxLength()).toEqual(10);
-        expect(angular.equals(validPasswordConfig.getPattern(), /^[a-zA-Z]\w{4,9}$/)).toEqual(true);
+        expect(angular.equals(validPasswordConfig.getPattern(), /^[a-zA-Z]\w{5,9}$/)).toEqual(true);
       });
     });
   });
 
 
-  describe('directive validation', function() {
+  describe('valid-password', function() {
 
     var $scope, form;
 
     beforeEach(module(function(validPasswordConfigProvider) {
       validPasswordConfigProvider.setConfig({
-        minLength: 5,
+        minLength: 6,
         maxLength: 10,
-        pattern: /^[a-zA-Z]\w{4,9}$/
+        pattern: /^[a-zA-Z]\w{5,9}$/
       });
     }));
 
@@ -43,14 +43,31 @@ describe('directive', function() {
 
       $compile(element)($scope);
 
-      $scope.model = { password: '' };
+      $scope.model = {};
       form = $scope.form;
     }));
 
-    describe('password validation', function() {
+    describe('validation', function() {
+
+      it('should pass with no password', function() {
+        $scope.$digest();
+
+        expect($scope.model.password).toBeUndefined();
+        expect(form.password.$valid).toBe(true);
+        expect(form.password.$error.invalidPassword).toBeUndefined();
+      });
+
+      it('should pass with empty password', function() {
+        form.password.$setViewValue('');
+        $scope.$digest();
+
+        expect($scope.model.password).toBe('');
+        expect(form.password.$valid).toBe(true);
+        expect(form.password.$error.invalidPassword).toBeUndefined();
+      });
 
       it('should fail with short password', function() {
-        form.password.$setViewValue('abc');
+        form.password.$setViewValue('short');
         $scope.$digest();
 
         expect($scope.model.password).toBeUndefined();

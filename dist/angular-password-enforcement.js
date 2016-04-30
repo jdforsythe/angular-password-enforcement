@@ -46,7 +46,9 @@
 
         return function(scope, element, attrs, ngModel) {
           ngModel.$validators.invalidPassword = function(value) {
-            if (typeof value !== 'string') return false;
+            // don't fail if empty - ng-required should be used for empty testing
+            if (!value)
+              return true;
 
             // should match the regex
             if (!pattern.test(value)) return false;
