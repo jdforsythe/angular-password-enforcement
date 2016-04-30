@@ -54,6 +54,9 @@ Simply add the `valid-password` attribute to your `<input>` field.
 The directive attaches `ng-minlength` and `ng-maxlength` attributes to your form field. It also attaches an `invalidPassword` property to the
 `$error` on your form field, so it can be used like any of the built-in validation directives.
 
+Note: This does *NOT FAIL* if the password field is empty. This is for cases where the user may be editing their profile and should
+be allowed to leave the field empty. If you want to test for the empty field, you must add `ng-required="true"` to the input.
+
 The examples below assume the configuration block and constant are configured as shown above.
 
 ### Example with `ng-messages`
